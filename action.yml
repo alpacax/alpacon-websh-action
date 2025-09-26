@@ -1,0 +1,49 @@
+name: 'Alpacon Websh Action'
+description: 'Executes a command on a target server using alpacon websh.'
+author: sangyeong01
+
+branding:
+  icon: 'terminal'
+  color: 'blue'
+
+inputs:
+  workspace-url:
+    description: 'Your AlpacaX workspace URL.'
+    required: true
+  api-token:
+    description: 'Alpacon API Token for login.'
+    required: true
+  target:
+    description: 'The target server name.'
+    required: true
+  script:
+    description: 'The script or command to execute.'
+    required: true
+  as-root:
+    description: "Set to 'true' to run the command as the root user (-r flag)."
+    required: false
+    default: 'false'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Login to Alpacon
+      run: alpacon login ${{ inputs.workspace-url }} -t ${{ inputs.api-token }}
+      shell: bash
+    - name: Execute Websh
+      run: |
+        ROOT_FLAG=""
+        if [[ "${{ inputs.as-root }}" == "true" ]]; then
+          ROOT_FLAG="-r"
+        fi
+
+        # Process multi-line script by executing each non-empty line
+        IFS=$'\n'
+        while read -r line; do
+          # Skip empty lines and comments
+          if [[ -n "$line" && ! "$line" =~ ^[[:space:]]*# ]]; then
+            echo "Executing: $line"
+            alpacon websh $ROOT_FLAG ${{ inputs.target }} "$line"
+          fi
+        done <<< '${{ inputs.script }}'
+      shell: bash
