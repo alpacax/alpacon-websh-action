@@ -7,14 +7,6 @@ Execute shell commands on remote servers in your AlpacaX workspace using the Alp
 
 This action allows you to run shell commands remotely on servers within your AlpacaX workspace, with support for running commands as root user.
 
-## Features
-
-- 🚀 Execute shell commands on remote servers in your AlpacaX workspace
-- 🔐 Secure authentication using API tokens
-- 👑 Optional root user execution
-- 🎯 Target specific servers in your workspace
-- ⚡ Fast and reliable command execution
-
 ## Prerequisites
 
 This action requires the Alpacon CLI to be installed in your workflow. Use the [Alpacon Setup Action](https://github.com/marketplace/actions/alpacon-setup-action) first:
