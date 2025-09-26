@@ -1,7 +1,7 @@
 
-# Alpacon WebSH Action
+# Alpacon Websh Action
 
-Execute shell commands on remote servers in your AlpacaX workspace using the Alpacon WebSH GitHub Action.
+Execute shell commands on remote servers in your AlpacaX workspace using the Alpacon Websh GitHub Action.
 
 [![GitHub marketplace](https://img.shields.io/badge/marketplace-alpacon--websh--action-blue?logo=github)](https://github.com/marketplace/actions/alpacon-websh-action)
 
@@ -74,4 +74,4 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 ## Notes
 
 - [Alpacon CLI Documentation](https://docs.alpacax.com/alpacon/cli/)
-- [Alpacon WebSH Command Reference](https://docs.alpacax.com/alpacon/cli/alpacon_websh)
+- [Alpacon Websh Command Reference](https://docs.alpacax.com/alpacon/cli/alpacon_websh)
