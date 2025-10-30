@@ -34,14 +34,8 @@ runs:
       shell: bash
     - name: Execute Websh
       run: |
-        USER_FLAGS=""
-        # Username is required if groupname is specified
-        if [[ -n "${{ inputs.username }}" ]]; then
-          USER_FLAGS="-u ${{ inputs.username }}"
-          if [[ -n "${{ inputs.groupname }}" ]]; then
-            USER_FLAGS="$USER_FLAGS -g ${{ inputs.groupname }}"
-          fi
-        elif [[ -n "${{ inputs.groupname }}" ]]; then
+        # Validate groupname requires username
+        if [[ -z "${{ inputs.username }}" && -n "${{ inputs.groupname }}" ]]; then
           echo "Error: groupname requires username to be specified"
           exit 1
         fi
@@ -52,7 +46,15 @@ runs:
           # Skip empty lines and comments
           if [[ -n "$line" && ! "$line" =~ ^[[:space:]]*# ]]; then
             echo "Executing: $line"
-            alpacon websh $USER_FLAGS ${{ inputs.target }} "$line"
+
+            # Build command with optional user/group flags
+            if [[ -n "${{ inputs.username }}" && -n "${{ inputs.groupname }}" ]]; then
+              alpacon websh -u "${{ inputs.username }}" -g "${{ inputs.groupname }}" ${{ inputs.target }} "$line"
+            elif [[ -n "${{ inputs.username }}" ]]; then
+              alpacon websh -u "${{ inputs.username }}" ${{ inputs.target }} "$line"
+            else
+              alpacon websh ${{ inputs.target }} "$line"
+            fi
           fi
         done <<< '${{ inputs.script }}'
       shell: bash
