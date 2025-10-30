@@ -19,10 +19,12 @@ inputs:
   script:
     description: 'The script or command to execute.'
     required: true
-  as-root:
-    description: "Set to 'true' to run the command as the root user (-r flag)."
+  username:
+    description: 'Username to execute the command as (e.g., root, ubuntu).'
     required: false
-    default: 'false'
+  groupname:
+    description: 'Group name to execute the command as.'
+    required: false
 
 runs:
   using: "composite"
@@ -32,9 +34,16 @@ runs:
       shell: bash
     - name: Execute Websh
       run: |
-        ROOT_FLAG=""
-        if [[ "${{ inputs.as-root }}" == "true" ]]; then
-          ROOT_FLAG="-r"
+        USER_FLAGS=""
+        # Username is required if groupname is specified
+        if [[ -n "${{ inputs.username }}" ]]; then
+          USER_FLAGS="-u ${{ inputs.username }}"
+          if [[ -n "${{ inputs.groupname }}" ]]; then
+            USER_FLAGS="$USER_FLAGS -g ${{ inputs.groupname }}"
+          fi
+        elif [[ -n "${{ inputs.groupname }}" ]]; then
+          echo "Error: groupname requires username to be specified"
+          exit 1
         fi
 
         # Process multi-line script by executing each non-empty line
@@ -43,7 +52,7 @@ runs:
           # Skip empty lines and comments
           if [[ -n "$line" && ! "$line" =~ ^[[:space:]]*# ]]; then
             echo "Executing: $line"
-            alpacon websh $ROOT_FLAG ${{ inputs.target }} "$line"
+            alpacon websh $USER_FLAGS ${{ inputs.target }} "$line"
           fi
         done <<< '${{ inputs.script }}'
       shell: bash
