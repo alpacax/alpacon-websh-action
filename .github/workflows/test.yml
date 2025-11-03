@@ -1,4 +1,4 @@
-name: Test Alpacon WebSH Action
+name: Test Alpacon Websh Action
 
 on:
   push:
@@ -39,10 +39,31 @@ jobs:
           workspace-url: ${{ secrets.TEST_ALPACON_WORKSPACE_URL }}
           api-token: ${{ secrets.TEST_ALPACON_API_TOKEN }}
           target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
+          username: 'root'
           script: |
             whoami
-            ls /root
-          as-root: true
+            id
+
+  test-user-with-group:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Alpacon CLI
+        uses: alpacax/alpacon-setup-action@v1.0.0
+
+      - name: Test User with Group
+        uses: ./
+        with:
+          workspace-url: ${{ secrets.TEST_ALPACON_WORKSPACE_URL }}
+          api-token: ${{ secrets.TEST_ALPACON_API_TOKEN }}
+          target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
+          username: 'ubuntu'
+          groupname: 'ubuntu'
+          script: |
+            whoami
+            groups
 
   test-multiline-script:
     runs-on: ubuntu-latest

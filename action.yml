@@ -8,7 +8,7 @@ branding:
 
 inputs:
   workspace-url:
-    description: 'Your AlpacaX workspace URL.'
+    description: 'Your Alpacon workspace URL.'
     required: true
   api-token:
     description: 'Alpacon API Token for login.'
@@ -19,10 +19,12 @@ inputs:
   script:
     description: 'The script or command to execute.'
     required: true
-  as-root:
-    description: "Set to 'true' to run the command as the root user (-r flag)."
+  username:
+    description: 'Username to execute the command as (e.g., root, ubuntu).'
     required: false
-    default: 'false'
+  groupname:
+    description: 'Group name to execute the command as.'
+    required: false
 
 runs:
   using: "composite"
@@ -32,9 +34,10 @@ runs:
       shell: bash
     - name: Execute Websh
       run: |
-        ROOT_FLAG=""
-        if [[ "${{ inputs.as-root }}" == "true" ]]; then
-          ROOT_FLAG="-r"
+        # Validate groupname requires username
+        if [[ -z "${{ inputs.username }}" && -n "${{ inputs.groupname }}" ]]; then
+          echo "Error: groupname requires username to be specified"
+          exit 1
         fi
 
         # Process multi-line script by executing each non-empty line
@@ -43,7 +46,15 @@ runs:
           # Skip empty lines and comments
           if [[ -n "$line" && ! "$line" =~ ^[[:space:]]*# ]]; then
             echo "Executing: $line"
-            alpacon websh $ROOT_FLAG ${{ inputs.target }} "$line"
+
+            # Build command with optional user/group flags
+            if [[ -n "${{ inputs.username }}" && -n "${{ inputs.groupname }}" ]]; then
+              alpacon websh -u "${{ inputs.username }}" -g "${{ inputs.groupname }}" ${{ inputs.target }} "$line"
+            elif [[ -n "${{ inputs.username }}" ]]; then
+              alpacon websh -u "${{ inputs.username }}" ${{ inputs.target }} "$line"
+            else
+              alpacon websh ${{ inputs.target }} "$line"
+            fi
           fi
         done <<< '${{ inputs.script }}'
       shell: bash
