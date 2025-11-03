@@ -1,4 +1,4 @@
-name: Test Alpacon WebSH Action
+name: Test Alpacon Websh Action
 
 on:
   push:
