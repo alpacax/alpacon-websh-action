@@ -111,5 +111,5 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 ## Notes
 
-- [Alpacon CLI Documentation](https://docs.alpacax.com/alpacon/cli/)
-- [Alpacon Websh Command Reference](https://docs.alpacax.com/alpacon/cli/alpacon_websh)
+- [Alpacon CLI Documentation](https://docs.alpacax.com/reference/cli/)
+- [Alpacon Websh Command Reference](https://docs.alpacax.com/reference/cli/Alpacon_websh/alpacon_websh/)
