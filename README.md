@@ -20,7 +20,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 ```yaml
 - name: Setup Alpacon CLI
-  uses: alpacax/alpacon-setup-action@v1.0.0
+  uses: alpacax/alpacon-setup-action@v1.1.0
 ```
 
 ## Usage examples
@@ -29,7 +29,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 ```yaml
 - name: Test basic command
-  uses: alpacax/alpacon-websh-action@v1.1.0
+  uses: alpacax/alpacon-websh-action@v1.2.0
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
@@ -41,7 +41,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 ```yaml
 - name: Verify root access
-  uses: alpacax/alpacon-websh-action@v1.1.0
+  uses: alpacax/alpacon-websh-action@v1.2.0
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
@@ -56,7 +56,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 ```yaml
 - name: Run command as ubuntu user
-  uses: alpacax/alpacon-websh-action@v1.1.0
+  uses: alpacax/alpacon-websh-action@v1.2.0
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
@@ -69,7 +69,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 ```yaml
 - name: Run command as specific user and group
-  uses: alpacax/alpacon-websh-action@v1.1.0
+  uses: alpacax/alpacon-websh-action@v1.2.0
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
@@ -85,7 +85,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 ```yaml
 - name: Execute multiple commands
-  uses: alpacax/alpacon-websh-action@v1.1.0
+  uses: alpacax/alpacon-websh-action@v1.2.0
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
@@ -112,7 +112,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 | Problem | Cause | Fix |
 |---------|-------|-----|
-| `alpacon: command not found` | CLI not installed | Add `alpacax/alpacon-setup-action@v1.0.0` before this action |
+| `alpacon: command not found` | CLI not installed | Add `alpacax/alpacon-setup-action@v1.1.0` before this action |
 | `login failed` | Invalid credentials | Verify `workspace-url` and `api-token` secrets are set correctly |
 | Command not executing | Empty or comment-only script | Ensure script contains non-empty, non-comment lines |
 | `groupname requires username` | `groupname` set without `username` | Always set `username` when using `groupname` |
