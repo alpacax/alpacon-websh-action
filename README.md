@@ -1,4 +1,3 @@
-
 # Alpacon Websh Action
 
 Execute shell commands on remote servers in your Alpacon workspace using the Alpacon Websh GitHub Action.
@@ -108,6 +107,15 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 | `script` | The shell command or script to execute | Yes | |
 | `username` | Username to execute the command as (e.g., root, ubuntu) | No | |
 | `groupname` | Group name to execute the command as (requires username) | No | |
+
+## Troubleshooting
+
+| Problem | Cause | Fix |
+|---------|-------|-----|
+| `alpacon: command not found` | CLI not installed | Add `alpacax/alpacon-setup-action@v1.0.0` before this action |
+| `login failed` | Invalid credentials | Verify `workspace-url` and `api-token` secrets are set correctly |
+| Command not executing | Empty or comment-only script | Ensure script contains non-empty, non-comment lines |
+| `groupname requires username` | `groupname` set without `username` | Always set `username` when using `groupname` |
 
 ## Notes
 
