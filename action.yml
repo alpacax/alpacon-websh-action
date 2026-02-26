@@ -32,7 +32,7 @@ runs:
     - name: Login to Alpacon
       run: |
         set -e
-        alpacon login ${{ inputs.workspace-url }} -t ${{ inputs.api-token }}
+        alpacon login "${{ inputs.workspace-url }}" -t "${{ inputs.api-token }}"
       shell: bash
     - name: Execute Websh
       run: |
@@ -51,11 +51,11 @@ runs:
 
             # Build command with optional user/group flags
             if [[ -n "${{ inputs.username }}" && -n "${{ inputs.groupname }}" ]]; then
-              alpacon websh -u "${{ inputs.username }}" -g "${{ inputs.groupname }}" "${{ inputs.target }}" "$line"
+              alpacon websh -u "${{ inputs.username }}" -g "${{ inputs.groupname }}" "${{ inputs.target }}" "$line" || exit $?
             elif [[ -n "${{ inputs.username }}" ]]; then
-              alpacon websh -u "${{ inputs.username }}" "${{ inputs.target }}" "$line"
+              alpacon websh -u "${{ inputs.username }}" "${{ inputs.target }}" "$line" || exit $?
             else
-              alpacon websh "${{ inputs.target }}" "$line"
+              alpacon websh "${{ inputs.target }}" "$line" || exit $?
             fi
           fi
         done <<< '${{ inputs.script }}'
