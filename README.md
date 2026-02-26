@@ -1,4 +1,3 @@
-
 # Alpacon Websh Action
 
 Execute shell commands on remote servers in your Alpacon workspace using the Alpacon Websh GitHub Action.
