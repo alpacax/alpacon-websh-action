@@ -133,6 +133,17 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 | Command not executing | Empty or comment-only script | Ensure script contains non-empty, non-comment lines |
 | `groupname requires username` | `groupname` set without `username` | Always set `username` when using `groupname` |
 
+## Releasing
+
+When creating a new release, always update the `v1` major version tag:
+
+```bash
+git tag -f v1 v1.x.0
+git push origin v1 --force
+```
+
+This ensures users referencing `@v1` automatically get the latest release.
+
 ## Notes
 
 - [Alpacon CLI Documentation](https://docs.alpacax.com/reference/cli/)
