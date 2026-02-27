@@ -25,6 +25,9 @@ inputs:
   groupname:
     description: 'Group name to execute the command as.'
     required: false
+  env:
+    description: 'Environment variables to pass to the remote command (one per line, KEY=VALUE or KEY format).'
+    required: false
 
 runs:
   using: "composite"
@@ -35,12 +38,28 @@ runs:
         alpacon login "${{ inputs.workspace-url }}" -t "${{ inputs.api-token }}"
       shell: bash
     - name: Execute Websh
+      env:
+        INPUT_USERNAME: ${{ inputs.username }}
+        INPUT_GROUPNAME: ${{ inputs.groupname }}
+        INPUT_ENV: ${{ inputs.env }}
+        INPUT_TARGET: ${{ inputs.target }}
+        INPUT_SCRIPT: ${{ inputs.script }}
       run: |
         set -e
         # Validate groupname requires username
-        if [[ -z "${{ inputs.username }}" && -n "${{ inputs.groupname }}" ]]; then
+        if [[ -z "$INPUT_USERNAME" && -n "$INPUT_GROUPNAME" ]]; then
           echo "Error: groupname requires username to be specified"
           exit 1
+        fi
+
+        # Build command args with optional flags
+        CMD_ARGS=()
+        if [[ -n "$INPUT_USERNAME" ]]; then CMD_ARGS+=(-u "$INPUT_USERNAME"); fi
+        if [[ -n "$INPUT_GROUPNAME" ]]; then CMD_ARGS+=(-g "$INPUT_GROUPNAME"); fi
+        if [[ -n "$INPUT_ENV" ]]; then
+          while IFS= read -r env_line || [[ -n "$env_line" ]]; do
+            [[ -n "$env_line" ]] && CMD_ARGS+=(--env="$env_line")
+          done <<< "$INPUT_ENV"
         fi
 
         # Process multi-line script by executing each non-empty line
@@ -48,15 +67,7 @@ runs:
           # Skip empty lines and comments
           if [[ -n "$line" && ! "$line" =~ ^[[:space:]]*# ]]; then
             echo "Executing: $line"
-
-            # Build command with optional user/group flags
-            if [[ -n "${{ inputs.username }}" && -n "${{ inputs.groupname }}" ]]; then
-              alpacon websh -u "${{ inputs.username }}" -g "${{ inputs.groupname }}" "${{ inputs.target }}" "$line" || exit $?
-            elif [[ -n "${{ inputs.username }}" ]]; then
-              alpacon websh -u "${{ inputs.username }}" "${{ inputs.target }}" "$line" || exit $?
-            else
-              alpacon websh "${{ inputs.target }}" "$line" || exit $?
-            fi
+            alpacon websh "${CMD_ARGS[@]}" "$INPUT_TARGET" "$line" || exit $?
           fi
-        done <<< '${{ inputs.script }}'
+        done <<< "$INPUT_SCRIPT"
       shell: bash
