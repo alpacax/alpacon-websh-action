@@ -1,116 +1,80 @@
 # Alpacon Websh Action
 
-Execute shell commands on remote servers in your Alpacon workspace using the Alpacon Websh GitHub Action.
-
 [![GitHub marketplace](https://img.shields.io/badge/marketplace-alpacon--websh--action-blue?logo=github)](https://github.com/marketplace/actions/alpacon-websh-action)
 
-This action allows you to run shell commands remotely on servers within your Alpacon workspace, with support for running commands as specific users and groups.
+Execute shell commands on remote servers in your [Alpacon](https://alpacon.io) workspace — directly from GitHub Actions, with no SSH keys required.
 
-## Features
+- Official Docs: [alpacon-websh-action reference](https://docs.alpacax.com/reference/actions/websh/)
 
-- 🚀 Execute shell commands on remote servers in your Alpacon workspace
-- 🔐 Secure authentication using API tokens
-- 👤 Run commands as specific users and groups
-- 🎯 Target specific servers in your workspace
-- ⚡ Fast and reliable command execution
+## Why use this action?
 
-## Prerequisites
+- **No SSH keys** — Authenticate with API tokens; no need to manage deploy keys or known_hosts
+- **Fine-grained access** — Run commands as specific users and groups with token-based ACL
+- **Environment variables** — Pass secrets and config values securely to remote commands
+- **Multi-line scripts** — Execute complex deployment scripts, not just single commands
+- **Audit trail** — Every command is recorded in workspace audit logs with sensitive values masked
 
-This action requires the Alpacon CLI to be installed in your workflow. Use the [Alpacon Setup Action](https://github.com/marketplace/actions/alpacon-setup-action) first:
+## Usage
+
+### Basic deployment
 
 ```yaml
-- name: Setup Alpacon CLI
-  uses: alpacax/alpacon-setup-action@v1
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Alpacon CLI
+        uses: alpacax/alpacon-setup-action@v1
+
+      - name: Deploy to production
+        uses: alpacax/alpacon-websh-action@v1
+        with:
+          workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
+          api-token: ${{ secrets.ALPACON_API_TOKEN }}
+          target: 'prod-server'
+          script: |
+            cd /opt/myapp
+            git pull
+            npm install
+            pm2 restart app
 ```
 
-## Usage examples
-
-### Basic command execution
+### Run as specific user and group
 
 ```yaml
-- name: Test basic command
+- name: Deploy with www-data group
   uses: alpacax/alpacon-websh-action@v1
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
-    target: 'your-server'
-    script: echo "Hello from remote server"
-```
-
-### Execute as root user
-
-```yaml
-- name: Verify root access
-  uses: alpacax/alpacon-websh-action@v1
-  with:
-    workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
-    api-token: ${{ secrets.ALPACON_API_TOKEN }}
-    target: 'your-server'
-    username: 'root'
-    script: |
-      whoami
-      id
-```
-
-### Execute as specific user
-
-```yaml
-- name: Run command as ubuntu user
-  uses: alpacax/alpacon-websh-action@v1
-  with:
-    workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
-    api-token: ${{ secrets.ALPACON_API_TOKEN }}
-    target: 'your-server'
-    username: 'ubuntu'
-    script: whoami
-```
-
-### Execute with user and group
-
-```yaml
-- name: Run command as specific user and group
-  uses: alpacax/alpacon-websh-action@v1
-  with:
-    workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
-    api-token: ${{ secrets.ALPACON_API_TOKEN }}
-    target: 'your-server'
+    target: 'web-server'
     username: 'ubuntu'
     groupname: 'www-data'
-    script: |
-      whoami
-      groups
+    script: cp -r /tmp/build/* /var/www/html/
 ```
 
-### Execute with environment variables
+### Pass environment variables
 
 ```yaml
-- name: Run command with environment variables
+- name: Deploy with env vars
   uses: alpacax/alpacon-websh-action@v1
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
-    target: 'your-server'
+    target: 'prod-server'
     env: |
-      MY_VAR=hello
-      DB_HOST=localhost
-    script: echo $MY_VAR
-```
-
-### Multi-line script
-
-```yaml
-- name: Execute multiple commands
-  uses: alpacax/alpacon-websh-action@v1
-  with:
-    workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
-    api-token: ${{ secrets.ALPACON_API_TOKEN }}
-    target: 'your-server'
+      APP_ENV=production
+      DB_HOST=db.internal
     script: |
-      echo "=== Multi-line Script Test ==="
-      echo "Command 1"
-      echo "Command 2"
-      echo "Script execution completed successfully"
+      echo "Deploying to $APP_ENV"
+      systemctl restart myapp
 ```
+
+The `env` input supports two formats:
+- `KEY=VALUE` — sets the variable to the specified value
+- `KEY` — forwards the variable from the runner environment
 
 ## Inputs
 
@@ -133,6 +97,18 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 | Command not executing | Empty or comment-only script | Ensure script contains non-empty, non-comment lines |
 | `groupname requires username` | `groupname` set without `username` | Always set `username` when using `groupname` |
 
+## Related actions
+
+- [alpacon-setup-action](https://github.com/alpacax/alpacon-setup-action) — Install Alpacon CLI (required)
+- [alpacon-cp-action](https://github.com/alpacax/alpacon-cp-action) — Copy files to/from remote servers
+- [alpacon-common-action](https://github.com/alpacax/alpacon-common-action) — Run any Alpacon CLI command
+
+## Resources
+
+- [GitHub Actions integration guide](https://docs.alpacax.com/integrate/github-actions/)
+- [Alpacon CLI reference](https://docs.alpacax.com/reference/cli/)
+- [alpacon websh command reference](https://docs.alpacax.com/reference/cli/websh/)
+
 ## Releasing
 
 When creating a new release, always update the `v1` major version tag:
@@ -143,8 +119,3 @@ git push origin v1 --force
 ```
 
 This ensures users referencing `@v1` automatically get the latest release.
-
-## Notes
-
-- [Alpacon CLI Documentation](https://docs.alpacax.com/reference/cli/)
-- [Alpacon Websh Command Reference](https://docs.alpacax.com/reference/cli/Alpacon_websh/alpacon_websh/)
