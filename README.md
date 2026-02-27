@@ -4,7 +4,7 @@
 
 Execute shell commands on remote servers in your [Alpacon](https://alpacon.io) workspace — directly from GitHub Actions, with no SSH keys required.
 
-- Official Docs: [alpacon-websh-action reference](https://docs.alpacax.com/reference/actions/websh/)
+- [Official documentation](https://docs.alpacax.com/reference/actions/websh/)
 
 ## Why use this action?
 
