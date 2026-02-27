@@ -38,22 +38,28 @@ runs:
         alpacon login "${{ inputs.workspace-url }}" -t "${{ inputs.api-token }}"
       shell: bash
     - name: Execute Websh
+      env:
+        INPUT_USERNAME: ${{ inputs.username }}
+        INPUT_GROUPNAME: ${{ inputs.groupname }}
+        INPUT_ENV: ${{ inputs.env }}
+        INPUT_TARGET: ${{ inputs.target }}
+        INPUT_SCRIPT: ${{ inputs.script }}
       run: |
         set -e
         # Validate groupname requires username
-        if [[ -z "${{ inputs.username }}" && -n "${{ inputs.groupname }}" ]]; then
+        if [[ -z "$INPUT_USERNAME" && -n "$INPUT_GROUPNAME" ]]; then
           echo "Error: groupname requires username to be specified"
           exit 1
         fi
 
         # Build command args with optional flags
         CMD_ARGS=()
-        if [[ -n "${{ inputs.username }}" ]]; then CMD_ARGS+=(-u "${{ inputs.username }}"); fi
-        if [[ -n "${{ inputs.groupname }}" ]]; then CMD_ARGS+=(-g "${{ inputs.groupname }}"); fi
-        if [[ -n '${{ inputs.env }}' ]]; then
+        if [[ -n "$INPUT_USERNAME" ]]; then CMD_ARGS+=(-u "$INPUT_USERNAME"); fi
+        if [[ -n "$INPUT_GROUPNAME" ]]; then CMD_ARGS+=(-g "$INPUT_GROUPNAME"); fi
+        if [[ -n "$INPUT_ENV" ]]; then
           while IFS= read -r env_line || [[ -n "$env_line" ]]; do
             [[ -n "$env_line" ]] && CMD_ARGS+=(--env="$env_line")
-          done <<< '${{ inputs.env }}'
+          done <<< "$INPUT_ENV"
         fi
 
         # Process multi-line script by executing each non-empty line
@@ -61,7 +67,7 @@ runs:
           # Skip empty lines and comments
           if [[ -n "$line" && ! "$line" =~ ^[[:space:]]*# ]]; then
             echo "Executing: $line"
-            alpacon websh "${CMD_ARGS[@]}" "${{ inputs.target }}" "$line" || exit $?
+            alpacon websh "${CMD_ARGS[@]}" "$INPUT_TARGET" "$line" || exit $?
           fi
-        done <<< '${{ inputs.script }}'
+        done <<< "$INPUT_SCRIPT"
       shell: bash

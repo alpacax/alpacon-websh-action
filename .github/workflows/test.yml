@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Alpacon CLI
-        uses: alpacax/alpacon-setup-action@v1.0.0
+        uses: alpacax/alpacon-setup-action@v1.1.0
 
       - name: Test Basic Command
         uses: ./
@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Alpacon CLI
-        uses: alpacax/alpacon-setup-action@v1.0.0
+        uses: alpacax/alpacon-setup-action@v1.1.0
 
       - name: Test Root Command
         uses: ./
@@ -54,7 +54,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Alpacon CLI
-        uses: alpacax/alpacon-setup-action@v1.0.0
+        uses: alpacax/alpacon-setup-action@v1.1.0
 
       - name: Test User with Group
         uses: ./
@@ -75,7 +75,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Alpacon CLI
-        uses: alpacax/alpacon-setup-action@v1.0.0
+        uses: alpacax/alpacon-setup-action@v1.1.0
 
       - name: Test Environment Variable
         uses: ./
@@ -85,7 +85,7 @@ jobs:
           target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
           env: |
             MY_VAR=hello
-          script: echo $MY_VAR
+          script: test "$MY_VAR" = "hello"
 
   test-multiline-script:
     runs-on: ubuntu-latest
@@ -94,7 +94,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Alpacon CLI
-        uses: alpacax/alpacon-setup-action@v1.0.0
+        uses: alpacax/alpacon-setup-action@v1.1.0
 
       - name: Test Multi-line Script
         uses: ./

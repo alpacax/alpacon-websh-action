@@ -29,7 +29,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 ```yaml
 - name: Test basic command
-  uses: alpacax/alpacon-websh-action@v1.2.0
+  uses: alpacax/alpacon-websh-action@v1
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
@@ -41,7 +41,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 ```yaml
 - name: Verify root access
-  uses: alpacax/alpacon-websh-action@v1.2.0
+  uses: alpacax/alpacon-websh-action@v1
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
@@ -56,7 +56,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 ```yaml
 - name: Run command as ubuntu user
-  uses: alpacax/alpacon-websh-action@v1.2.0
+  uses: alpacax/alpacon-websh-action@v1
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
@@ -69,7 +69,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 ```yaml
 - name: Run command as specific user and group
-  uses: alpacax/alpacon-websh-action@v1.2.0
+  uses: alpacax/alpacon-websh-action@v1
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
@@ -85,7 +85,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 ```yaml
 - name: Run command with environment variables
-  uses: alpacax/alpacon-websh-action@v1.3.0
+  uses: alpacax/alpacon-websh-action@v1
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
@@ -100,7 +100,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 
 ```yaml
 - name: Execute multiple commands
-  uses: alpacax/alpacon-websh-action@v1.2.0
+  uses: alpacax/alpacon-websh-action@v1
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
