@@ -68,6 +68,25 @@ jobs:
             whoami
             groups
 
+  test-env-variable:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Alpacon CLI
+        uses: alpacax/alpacon-setup-action@v1.0.0
+
+      - name: Test Environment Variable
+        uses: ./
+        with:
+          workspace-url: ${{ secrets.TEST_ALPACON_WORKSPACE_URL }}
+          api-token: ${{ secrets.TEST_ALPACON_API_TOKEN }}
+          target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
+          env: |
+            MY_VAR=hello
+          script: echo $MY_VAR
+
   test-multiline-script:
     runs-on: ubuntu-latest
     steps:

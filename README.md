@@ -81,6 +81,21 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
       groups
 ```
 
+### Execute with environment variables
+
+```yaml
+- name: Run command with environment variables
+  uses: alpacax/alpacon-websh-action@v1.3.0
+  with:
+    workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
+    api-token: ${{ secrets.ALPACON_API_TOKEN }}
+    target: 'your-server'
+    env: |
+      MY_VAR=hello
+      DB_HOST=localhost
+    script: echo $MY_VAR
+```
+
 ### Multi-line script
 
 ```yaml
@@ -107,6 +122,7 @@ This action requires the Alpacon CLI to be installed in your workflow. Use the [
 | `script` | The shell command or script to execute | Yes | |
 | `username` | Username to execute the command as (e.g., root, ubuntu) | No | |
 | `groupname` | Group name to execute the command as (requires username) | No | |
+| `env` | Environment variables to pass to the remote command (one per line, KEY=VALUE or KEY format) | No | |
 
 ## Troubleshooting
 
