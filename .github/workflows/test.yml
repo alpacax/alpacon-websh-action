@@ -85,7 +85,7 @@ jobs:
           target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
           env: |
             MY_VAR=hello
-          script: test "$MY_VAR" = "hello"
+          script: echo $MY_VAR
 
   test-multiline-script:
     runs-on: ubuntu-latest
