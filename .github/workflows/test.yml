@@ -26,7 +26,7 @@ jobs:
           workspace-url: ${{ secrets.TEST_ALPACON_WORKSPACE_URL }}
           api-token: ${{ secrets.TEST_ALPACON_API_TOKEN }}
           target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
-          script: echo "Hello from remote server"
+          script: whoami
 
   test-root-command:
     runs-on: ubuntu-latest
@@ -108,7 +108,5 @@ jobs:
           api-token: ${{ secrets.TEST_ALPACON_API_TOKEN }}
           target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
           script: |
-            echo "=== Multi-line Script Test ==="
-            echo "Command 1"
-            echo "Command 2 -> Date: $(date)"
-            echo "Script execution completed successfully"
+            whoami
+            id
