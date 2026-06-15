@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Alpacon CLI
         uses: alpacax/alpacon-setup-action@v1
@@ -26,14 +26,14 @@ jobs:
           workspace-url: ${{ secrets.TEST_ALPACON_WORKSPACE_URL }}
           api-token: ${{ secrets.TEST_ALPACON_API_TOKEN }}
           target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
-          script: echo "Hello from remote server"
+          script: whoami
 
   test-root-command:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Alpacon CLI
         uses: alpacax/alpacon-setup-action@v1
@@ -54,7 +54,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Alpacon CLI
         uses: alpacax/alpacon-setup-action@v1
@@ -76,7 +76,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Alpacon CLI
         uses: alpacax/alpacon-setup-action@v1
@@ -96,7 +96,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Alpacon CLI
         uses: alpacax/alpacon-setup-action@v1
@@ -108,7 +108,5 @@ jobs:
           api-token: ${{ secrets.TEST_ALPACON_API_TOKEN }}
           target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
           script: |
-            echo "=== Multi-line Script Test ==="
-            echo "Command 1"
-            echo "Command 2 -> Date: $(date)"
-            echo "Script execution completed successfully"
+            whoami
+            id
