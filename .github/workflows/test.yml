@@ -29,7 +29,7 @@ jobs:
           target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
           script: whoami
 
-  test-root-command:
+  test-groups-command:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -39,35 +39,12 @@ jobs:
       - name: Setup Alpacon CLI
         uses: alpacax/alpacon-setup-action@v1
 
-      - name: Test Root Command
+      - name: Test Groups Command
         uses: ./
         with:
           workspace-url: ${{ secrets.TEST_ALPACON_WORKSPACE_URL }}
           api-token: ${{ secrets.TEST_ALPACON_API_TOKEN }}
           target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
-          username: 'root'
-          script: |
-            whoami
-            id
-
-  test-user-with-group:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Setup Alpacon CLI
-        uses: alpacax/alpacon-setup-action@v1
-
-      - name: Test User with Group
-        uses: ./
-        with:
-          workspace-url: ${{ secrets.TEST_ALPACON_WORKSPACE_URL }}
-          api-token: ${{ secrets.TEST_ALPACON_API_TOKEN }}
-          target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
-          username: 'ubuntu'
-          groupname: 'ubuntu'
           script: |
             whoami
             groups
