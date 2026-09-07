@@ -5,6 +5,7 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -28,7 +29,9 @@ jobs:
           target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
           script: whoami
 
-  test-root-command:
+  # The CI token is bound to the "deploy" OS account, so username/groupname are
+  # exercised with that account rather than root
+  test-username-command:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -38,18 +41,18 @@ jobs:
       - name: Setup Alpacon CLI
         uses: alpacax/alpacon-setup-action@v1
 
-      - name: Test Root Command
+      - name: Test Username Command
         uses: ./
         with:
           workspace-url: ${{ secrets.TEST_ALPACON_WORKSPACE_URL }}
           api-token: ${{ secrets.TEST_ALPACON_API_TOKEN }}
           target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
-          username: 'root'
+          username: 'deploy'
           script: |
             whoami
             id
 
-  test-user-with-group:
+  test-username-with-group:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -59,14 +62,14 @@ jobs:
       - name: Setup Alpacon CLI
         uses: alpacax/alpacon-setup-action@v1
 
-      - name: Test User with Group
+      - name: Test Username with Group
         uses: ./
         with:
           workspace-url: ${{ secrets.TEST_ALPACON_WORKSPACE_URL }}
           api-token: ${{ secrets.TEST_ALPACON_API_TOKEN }}
           target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
-          username: 'ubuntu'
-          groupname: 'ubuntu'
+          username: 'deploy'
+          groupname: 'deploy'
           script: |
             whoami
             groups
