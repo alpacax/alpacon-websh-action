@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v1.3.1
 
 - Pass `workspace-url` and `api-token` to the login step through `env` instead of expanding them in the script. No behavior change for users.
 
