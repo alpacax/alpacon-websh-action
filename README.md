@@ -93,7 +93,7 @@ The `env` input supports two formats:
 | Name | Description | Required | Default |
 |------|-------------|----------|---------|
 | `workspace-url` | Your Alpacon workspace URL | Yes | |
-| `api-token` | Alpacon service token key (`alpst-`) | Yes | |
+| `api-token` | Alpacon service token key (`alpst-`), recommended. A personal API token also works | Yes | |
 | `target` | The target server name to execute commands on | Yes | |
 | `script` | The shell command or script to execute | Yes | |
 | `username` | Username to execute the command as (e.g., root, ubuntu) | No | |
