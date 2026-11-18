@@ -33,9 +33,12 @@ runs:
   using: "composite"
   steps:
     - name: Login to Alpacon
+      env:
+        INPUT_WORKSPACE_URL: ${{ inputs.workspace-url }}
+        INPUT_API_TOKEN: ${{ inputs.api-token }}
       run: |
         set -e
-        alpacon login "${{ inputs.workspace-url }}" -t "${{ inputs.api-token }}"
+        alpacon login "$INPUT_WORKSPACE_URL" -t "$INPUT_API_TOKEN"
       shell: bash
     - name: Execute Websh
       env:

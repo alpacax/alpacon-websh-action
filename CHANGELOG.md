@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Pass `workspace-url` and `api-token` to the login step through `env` instead of expanding them in the script. No behavior change for users.
+
 ## v1.3.0
 
 - Add `env` input for passing environment variables to remote commands
