@@ -11,7 +11,7 @@ inputs:
     description: 'Your Alpacon workspace URL.'
     required: true
   api-token:
-    description: 'Alpacon API Token for login.'
+    description: 'Alpacon service token key (`alpst-`), recommended. A personal API token also works'
     required: true
   target:
     description: 'The target server name.'

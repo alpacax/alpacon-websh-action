@@ -14,6 +14,16 @@ Execute shell commands on remote servers in your [Alpacon](https://alpacon.io) w
 - **Multi-line scripts** — Execute complex deployment scripts, not just single commands
 - **Audit trail** — Every command is recorded in workspace audit logs with sensitive values masked
 
+## Authentication
+
+Use an Alpacon service token for `api-token`. A service token belongs to an IAM Application (a machine identity), not to a person, so it keeps working when people leave. Its access is limited by the token's scopes and its server, command, and file access rules.
+
+Store the token as a repository secret named `ALPACON_SERVICE_TOKEN`, as in the examples below. The input is named `api-token` for compatibility with published workflows and takes the service token as-is. Logging in with a service token (prefix `alpst-`) requires Alpacon CLI v1.7.4 or later.
+
+A personal API token still works, but depending on your Alpacon server release it may require an active, approved Work Session for command execution and file transfer. Service tokens do not need a Work Session for those operations; endpoint permissions still apply.
+
+See [Service tokens](https://docs.alpacax.com/use/iam/applications/service-tokens/) and the [GitHub Actions integration guide](https://docs.alpacax.com/integrate/github-actions/).
+
 ## Usage
 
 ### Basic deployment
@@ -32,7 +42,7 @@ jobs:
         uses: alpacax/alpacon-websh-action@v1
         with:
           workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
-          api-token: ${{ secrets.ALPACON_API_TOKEN }}
+          api-token: ${{ secrets.ALPACON_SERVICE_TOKEN }}
           target: 'prod-server'
           script: |
             cd /opt/myapp
@@ -42,6 +52,8 @@ jobs:
 ```
 
 ### Run as specific user and group
+
+`groupname` is unavailable to service tokens, which always use their account's private group. This example uses a personal API token.
 
 ```yaml
 - name: Deploy with www-data group
@@ -62,7 +74,7 @@ jobs:
   uses: alpacax/alpacon-websh-action@v1
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
-    api-token: ${{ secrets.ALPACON_API_TOKEN }}
+    api-token: ${{ secrets.ALPACON_SERVICE_TOKEN }}
     target: 'prod-server'
     env: |
       APP_ENV=production
@@ -81,11 +93,11 @@ The `env` input supports two formats:
 | Name | Description | Required | Default |
 |------|-------------|----------|---------|
 | `workspace-url` | Your Alpacon workspace URL | Yes | |
-| `api-token` | Alpacon API token for authentication | Yes | |
+| `api-token` | Alpacon service token key (`alpst-`), recommended. A personal API token also works | Yes | |
 | `target` | The target server name to execute commands on | Yes | |
 | `script` | The shell command or script to execute | Yes | |
 | `username` | Username to execute the command as (e.g., root, ubuntu) | No | |
-| `groupname` | Group name to execute the command as (requires username) | No | |
+| `groupname` | Group name to execute the command as (requires username). Unavailable to service tokens, which use their account's private group | No | |
 | `env` | Environment variables to pass to the remote command (one per line, KEY=VALUE or KEY format) | No | |
 
 ## Troubleshooting
