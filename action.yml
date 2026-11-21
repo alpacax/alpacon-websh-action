@@ -1,5 +1,5 @@
-name: 'Alpacon Websh Action'
-description: 'Executes a command on a target server using alpacon websh.'
+name: 'Alpacon Exec Action'
+description: 'Executes a command on a target server using alpacon exec.'
 author: sangyeong01
 
 branding:
@@ -40,7 +40,7 @@ runs:
         set -e
         alpacon login "$INPUT_WORKSPACE_URL" -t "$INPUT_API_TOKEN"
       shell: bash
-    - name: Execute Websh
+    - name: Execute command
       env:
         INPUT_USERNAME: ${{ inputs.username }}
         INPUT_GROUPNAME: ${{ inputs.groupname }}
@@ -70,7 +70,7 @@ runs:
           # Skip empty lines and comments
           if [[ -n "$line" && ! "$line" =~ ^[[:space:]]*# ]]; then
             echo "Executing: $line"
-            alpacon websh "${CMD_ARGS[@]}" "$INPUT_TARGET" "$line" || exit $?
+            alpacon exec "${CMD_ARGS[@]}" "$INPUT_TARGET" "$line" || exit $?
           fi
         done <<< "$INPUT_SCRIPT"
       shell: bash

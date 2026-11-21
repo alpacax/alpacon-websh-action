@@ -1,10 +1,12 @@
-# Alpacon Websh Action
+# Alpacon Exec Action
 
-[![GitHub marketplace](https://img.shields.io/badge/marketplace-alpacon--websh--action-blue?logo=github)](https://github.com/marketplace/actions/alpacon-websh-action)
+[![GitHub marketplace](https://img.shields.io/badge/marketplace-alpacon--exec--action-blue?logo=github)](https://github.com/marketplace/actions/alpacon-exec-action)
 
 Execute shell commands on remote servers in your [Alpacon](https://alpacon.io) workspace — directly from GitHub Actions, with no SSH keys required.
 
-- [Official documentation](https://docs.alpacax.com/reference/actions/websh/)
+- [Official documentation](https://docs.alpacax.com/integrate/github-actions/)
+
+> This action was named `alpacon-websh-action`. GitHub does not redirect `uses:` to a renamed action, so change `alpacax/alpacon-websh-action@v1` to `alpacax/alpacon-exec-action@v1` in your workflows. The inputs are unchanged.
 
 ## Why use this action?
 
@@ -39,7 +41,7 @@ jobs:
         uses: alpacax/alpacon-setup-action@v1
 
       - name: Deploy to production
-        uses: alpacax/alpacon-websh-action@v1
+        uses: alpacax/alpacon-exec-action@v1
         with:
           workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
           api-token: ${{ secrets.ALPACON_SERVICE_TOKEN }}
@@ -57,7 +59,7 @@ jobs:
 
 ```yaml
 - name: Deploy with www-data group
-  uses: alpacax/alpacon-websh-action@v1
+  uses: alpacax/alpacon-exec-action@v1
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_API_TOKEN }}
@@ -71,7 +73,7 @@ jobs:
 
 ```yaml
 - name: Deploy with env vars
-  uses: alpacax/alpacon-websh-action@v1
+  uses: alpacax/alpacon-exec-action@v1
   with:
     workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
     api-token: ${{ secrets.ALPACON_SERVICE_TOKEN }}
@@ -119,7 +121,7 @@ The `env` input supports two formats:
 
 - [GitHub Actions integration guide](https://docs.alpacax.com/integrate/github-actions/)
 - [Alpacon CLI reference](https://docs.alpacax.com/reference/cli/)
-- [alpacon websh command reference](https://docs.alpacax.com/reference/cli/websh/)
+- [alpacon exec command reference](https://docs.alpacax.com/reference/cli/exec/)
 
 ## Releasing
 

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Rename the action to `alpacon-exec-action`. Workflows must change `uses: alpacax/alpacon-websh-action@v1` to `uses: alpacax/alpacon-exec-action@v1`; GitHub does not redirect a renamed action. Inputs are unchanged.
+- Run each line with `alpacon exec` instead of `alpacon websh SERVER COMMAND`. Both use the same executor, so output, exit codes and approval handling are the same.
 - Docs: recommend a service token for `api-token`. No behavior change.
 
 ## v1.3.1
