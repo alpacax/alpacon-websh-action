@@ -2,7 +2,7 @@
 
 [![GitHub marketplace](https://img.shields.io/badge/marketplace-alpacon--exec--action-blue?logo=github)](https://github.com/marketplace/actions/alpacon-exec-action)
 
-Execute shell commands on remote servers in your [Alpacon](https://alpacon.io) workspace — directly from GitHub Actions, with no SSH keys required.
+Execute shell commands on remote servers in your [Alpacon](https://alpacon.io) workspace—directly from GitHub Actions, with no SSH keys required.
 
 - [Official documentation](https://docs.alpacax.com/integrate/github-actions/)
 
@@ -69,8 +69,8 @@ jobs:
 ```
 
 The `env` input supports two formats:
-- `KEY=VALUE` — sets the variable to the specified value
-- `KEY` — forwards the variable from the runner environment
+- `KEY=VALUE`—sets the variable to the specified value
+- `KEY`—forwards the variable from the runner environment
 
 ## Inputs
 
@@ -81,7 +81,7 @@ The `env` input supports two formats:
 | `target` | The target server name to execute commands on | Yes | |
 | `script` | The shell command or script to execute | Yes | |
 | `username` | Username to execute the command as (e.g., root, ubuntu) | No | |
-| `groupname` | Group name to execute the command as (requires username). Unavailable to service tokens, which use their account's private group | No | |
+| `groupname` | Group name to execute the command as (requires username). Ignored for a service token | No | |
 | `env` | Environment variables to pass to the remote command (one per line, KEY=VALUE or KEY format) | No | |
 
 `groupname` cannot be used with a service token: the command always runs in the service account's private group, and a `groupname` value is ignored.
@@ -97,9 +97,9 @@ The `env` input supports two formats:
 
 ## Related actions
 
-- [alpacon-setup-action](https://github.com/alpacax/alpacon-setup-action) — Install Alpacon CLI (required)
-- [alpacon-cp-action](https://github.com/alpacax/alpacon-cp-action) — Copy files to/from remote servers
-- [alpacon-common-action](https://github.com/alpacax/alpacon-common-action) — Run any Alpacon CLI command
+- [alpacon-setup-action](https://github.com/alpacax/alpacon-setup-action)—Install Alpacon CLI (required)
+- [alpacon-cp-action](https://github.com/alpacax/alpacon-cp-action)—Copy files to/from remote servers
+- [alpacon-common-action](https://github.com/alpacax/alpacon-common-action)—Run any Alpacon CLI command
 
 ## Resources
 
