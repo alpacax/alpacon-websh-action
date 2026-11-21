@@ -10,8 +10,8 @@ inputs:
   workspace-url:
     description: 'Your Alpacon workspace URL.'
     required: true
-  api-token:
-    description: 'Alpacon service token key (`alpst-`), recommended. A personal API token also works'
+  service-token:
+    description: 'Alpacon service token key (`alpst-`).'
     required: true
   target:
     description: 'The target server name.'
@@ -35,10 +35,11 @@ runs:
     - name: Login to Alpacon
       env:
         INPUT_WORKSPACE_URL: ${{ inputs.workspace-url }}
-        INPUT_API_TOKEN: ${{ inputs.api-token }}
+        INPUT_SERVICE_TOKEN: ${{ inputs.service-token }}
       run: |
         set -e
-        alpacon login "$INPUT_WORKSPACE_URL" -t "$INPUT_API_TOKEN"
+        [[ -n "$INPUT_SERVICE_TOKEN" ]] || { echo "Error: the service-token input is empty; set it to an Alpacon service token (alpst-)" >&2; exit 1; }
+        alpacon login "$INPUT_WORKSPACE_URL" -t "$INPUT_SERVICE_TOKEN"
       shell: bash
     - name: Execute command
       env:

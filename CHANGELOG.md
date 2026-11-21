@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## v2.0.0
+
+- Breaking: replace the `api-token` input with `service-token`. To upgrade, change `api-token:` to `service-token:` and `@v1` to `@v2` in your workflows.
+
+## v1.4.0
 
 - Rename the action to `alpacon-exec-action`. Workflows must change `uses: alpacax/alpacon-websh-action@v1` to `uses: alpacax/alpacon-exec-action@v1`; GitHub does not redirect a renamed action. Inputs are unchanged.
 - Run each line with `alpacon exec` instead of `alpacon websh SERVER COMMAND`. Both use the same executor, so output, exit codes and approval handling are the same.
